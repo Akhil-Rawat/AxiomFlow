@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AxiomFlow - DeFi Vault</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="nav">
+      <div class="nav-container">
+        <div class="logo">
+          <h1>AxiomFlow</h1>
+          <p class="tagline">REAL WORLD ASSETS & YIELDS</p>
+        </div>
+        <button id="connectWallet" class="btn-primary">CONNECT WALLET</button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h2 class="hero-title">COLLATERALIZE.<br />BORROW.<br />EARN YIELD.</h2>
+        <p class="hero-subtitle">
+          Deposit RWA tokens, borrow MNT, and watch your debt reduce
+          automatically through yield generation.
+        </p>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-value" id="totalTVL">0</span>
+            <span class="stat-label">TOTAL VALUE LOCKED</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">50%</span>
+            <span class="stat-label">LTV RATIO</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="totalYield">0</span>
+            <span class="stat-label">YIELD DISTRIBUTED</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Wallet Connection Status -->
+    <div id="walletStatus" class="wallet-status" style="display: none">
+      <div class="container">
+        <div class="status-card">
+          <span class="status-label">Connected:</span>
+          <span id="walletAddress" class="status-value"></span>
+        </div>
+        <div class="status-card">
+          <span class="status-label">MNT Balance:</span>
+          <span id="mntBalance" class="status-value">0</span>
+        </div>
+        <div class="status-card">
+          <span class="status-label">RWA Balance:</span>
+          <span id="rwaBalance" class="status-value">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Interaction Section -->
+    <section class="main-section">
+      <div class="container">
+        <!-- User Position Card -->
+        <div class="position-card">
+          <h3 class="section-title">YOUR POSITION</h3>
+          <div class="position-grid">
+            <div class="position-item">
+              <span class="position-label">Collateral Deposited</span>
+              <span id="userCollateral" class="position-value">0 RWA</span>
+            </div>
+            <div class="position-item">
+              <span class="position-label">Amount Borrowed</span>
+              <span id="userBorrowed" class="position-value">0 MNT</span>
+            </div>
+            <div class="position-item">
+              <span class="position-label">Remaining Debt</span>
+              <span id="userDebt" class="position-value">0 MNT</span>
+            </div>
+            <div class="position-item">
+              <span class="position-label">Debt Paid by Yield</span>
+              <span id="debtPaid" class="position-value">0 MNT</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Cards -->
+        <div class="actions-grid">
+          <!-- Deposit Collateral -->
+          <div class="action-card">
+            <h3 class="action-title">01. DEPOSIT COLLATERAL</h3>
+            <p class="action-description">
+              Deposit your RWA tokens as collateral
+            </p>
+            <div class="input-group">
+              <input
+                type="number"
+                id="depositAmount"
+                class="input-field"
+                placeholder="Amount of RWA"
+                step="0.01"
+              />
+              <span class="input-unit">RWA</span>
+            </div>
+            <button id="depositBtn" class="btn-action">DEPOSIT</button>
+            <div class="info-text">
+              Available: <span id="availableRWA">0</span> RWA
+            </div>
+          </div>
+
+          <!-- Borrow MNT -->
+          <div class="action-card">
+            <h3 class="action-title">02. BORROW MNT</h3>
+            <p class="action-description">
+              Borrow MNT against your collateral (50% LTV)
+            </p>
+            <div class="input-group">
+              <input
+                type="number"
+                id="borrowAmount"
+                class="input-field"
+                placeholder="Amount of MNT"
+                step="0.01"
+              />
+              <span class="input-unit">MNT</span>
+            </div>
+            <button id="borrowBtn" class="btn-action">BORROW</button>
+            <div class="info-text">
+              Max Borrow: <span id="maxBorrow">0</span> MNT
+            </div>
+          </div>
+
+          <!-- Generate Yield -->
+          <div class="action-card highlight">
+            <h3 class="action-title">03. GENERATE YIELD</h3>
+            <p class="action-description">
+              Trigger yield distribution to reduce all debt
+            </p>
+            <div class="yield-info">
+              <div class="yield-item">
+                <span>Yield Available:</span>
+                <span id="availableYield">0 MNT</span>
+              </div>
+              <div class="yield-item">
+                <span>Total Borrowers:</span>
+                <span id="totalBorrowers">0</span>
+              </div>
+            </div>
+            <button id="yieldBtn" class="btn-action btn-highlight">
+              DISTRIBUTE YIELD
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="info-section">
+      <div class="container">
+        <div class="info-grid">
+          <div class="info-card">
+            <h4>NO TRADITIONAL REPAYMENTS</h4>
+            <p>
+              Yield automatically reduces your debt. No manual payments needed.
+            </p>
+          </div>
+          <div class="info-card">
+            <h4>50% LOAN-TO-VALUE</h4>
+            <p>
+              Conservative LTV ratio ensures platform stability and user safety.
+            </p>
+          </div>
+          <div class="info-card">
+            <h4>PROPORTIONAL DISTRIBUTION</h4>
+            <p>
+              Yield is distributed based on each borrower's share of total debt.
+            </p>
+          </div>
+          <div class="info-card">
+            <h4>REAL MNT ON MANTLE</h4>
+            <p>Uses actual MNT tokens on Mantle Sepolia testnet.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Admin Section (Only for Contract Owner) -->
+    <section class="admin-section" id="adminSection" style="display: none">
+      <div class="container">
+        <h3 class="section-title">ADMIN CONTROLS</h3>
+        <div class="admin-grid">
+          <div class="admin-card">
+            <h4>Fund Vault with MNT</h4>
+            <div class="input-group">
+              <input
+                type="number"
+                id="fundAmount"
+                class="input-field"
+                placeholder="MNT Amount"
+                step="0.01"
+              />
+              <span class="input-unit">MNT</span>
+            </div>
+            <button id="fundVaultBtn" class="btn-action">FUND VAULT</button>
+          </div>
+          <div class="admin-card">
+            <h4>Fund Yield Engine</h4>
+            <div class="input-group">
+              <input
+                type="number"
+                id="fundYieldAmount"
+                class="input-field"
+                placeholder="MNT Amount"
+                step="0.01"
+              />
+              <span class="input-unit">MNT</span>
+            </div>
+            <button id="fundYieldBtn" class="btn-action">
+              FUND YIELD ENGINE
+            </button>
+          </div>
+          <div class="admin-card">
+            <h4>Mint RWA Tokens</h4>
+            <div class="input-group">
+              <input
+                type="text"
+                id="mintAddress"
+                class="input-field"
+                placeholder="Address"
+              />
+            </div>
+            <div class="input-group">
+              <input
+                type="number"
+                id="mintAmount"
+                class="input-field"
+                placeholder="Amount"
+                step="1"
+              />
+              <span class="input-unit">RWA</span>
+            </div>
+            <button id="mintRWABtn" class="btn-action">MINT RWA</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Event Log -->
+    <section class="events-section">
+      <div class="container">
+        <h3 class="section-title">RECENT ACTIVITY</h3>
+        <div id="eventLog" class="event-log">
+          <p class="empty-state">
+            No events yet. Connect your wallet to get started.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2026 AxiomFlow • BUILT ON MANTLE SEPOLIA</p>
+        <div class="footer-links">
+          <a href="#" class="footer-link">DOCS</a>
+          <a href="#" class="footer-link">GITHUB</a>
+          <a href="#" class="footer-link">DISCORD</a>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.ethers.io/lib/ethers-5.7.2.umd.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>

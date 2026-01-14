@@ -1,0 +1,19 @@
+{
+  "name": "mantle-lending-mvp",
+  "version": "1.0.0",
+  "description": "Yield-backed lending system for Mantle Sepolia",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy": "hardhat run scripts/deploy.js --network mantleSepolia",
+    "demo": "hardhat run scripts/automated-demo.js --network mantleSepolia",
+    "test": "hardhat test"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "hardhat": "^2.19.0"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1",
+    "dotenv": "^17.2.3"
+  }
+}
