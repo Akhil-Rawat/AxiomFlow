@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Documentation - AxiomFlow</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .docs-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 60px 20px;
+      }
+
+      .docs-section {
+        background: white;
+        border: 3px solid var(--dark-text);
+        padding: 40px;
+        margin-bottom: 30px;
+        box-shadow: 6px 6px 0 var(--dark-text);
+      }
+
+      .docs-section h2 {
+        font-family: var(--font-display);
+        font-size: 1.8rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        color: var(--primary-green);
+        margin-bottom: 20px;
+        text-transform: uppercase;
+      }
+
+      .docs-section h3 {
+        font-family: var(--font-display);
+        font-size: 1.3rem;
+        font-weight: 700;
+        letter-spacing: 0.05em;
+        color: var(--bright-green);
+        margin: 30px 0 15px;
+        text-transform: uppercase;
+      }
+
+      .docs-section p {
+        line-height: 1.8;
+        margin-bottom: 15px;
+        color: var(--dark-text);
+      }
+
+      .docs-section ul,
+      .docs-section ol {
+        margin-left: 30px;
+        margin-bottom: 20px;
+        line-height: 1.8;
+      }
+
+      .docs-section li {
+        margin-bottom: 10px;
+      }
+
+      .highlight-box {
+        background: var(--cream);
+        border-left: 5px solid var(--primary-green);
+        padding: 20px;
+        margin: 20px 0;
+        font-family: var(--font-display);
+      }
+
+      .highlight-box strong {
+        color: var(--primary-green);
+        font-weight: 900;
+      }
+
+      .code-block {
+        background: var(--dark-text);
+        color: var(--cream);
+        padding: 20px;
+        border-radius: 5px;
+        font-family: "Courier New", monospace;
+        margin: 20px 0;
+        overflow-x: auto;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin: 30px 0;
+      }
+
+      .feature-card {
+        background: var(--cream);
+        border: 2px solid var(--border-color);
+        padding: 20px;
+      }
+
+      .feature-card h4 {
+        font-family: var(--font-display);
+        font-weight: 900;
+        color: var(--primary-green);
+        margin-bottom: 10px;
+      }
+
+      .contract-address {
+        background: var(--cream);
+        border: 2px solid var(--primary-green);
+        padding: 10px;
+        font-family: var(--font-display);
+        font-size: 0.9rem;
+        word-break: break-all;
+        margin: 10px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="nav">
+      <div class="nav-container">
+        <div class="logo">
+          <img
+            src="assets/AxiomFlow-re.png"
+            alt="AxiomFlow Logo"
+            class="logo-icon"
+          />
+          <div class="logo-text">
+            <h1>AxiomFlow</h1>
+            <p class="tagline">REAL WORLD ASSETS & YIELDS</p>
+          </div>
+        </div>
+        <div style="display: flex; gap: 20px; align-items: center">
+          <a
+            href="index.html"
+            class="btn-primary"
+            style="text-decoration: none; display: inline-block"
+            >HOME</a
+          >
+          <a
+            href="docs.html"
+            class="btn-primary"
+            style="text-decoration: none; display: inline-block"
+            >DOCS</a
+          >
+        </div>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h2 class="hero-title">DOCUMENTATION</h2>
+        <p class="hero-subtitle">
+          Understanding AxiomFlow's revolutionary self-paying loan system
+        </p>
+      </div>
+    </section>
+
+    <!-- Documentation Content -->
+    <div class="docs-container">
+      <!-- Introduction -->
+      <div class="docs-section">
+        <h2>01. What is AxiomFlow?</h2>
+        <p>
+          AxiomFlow is a revolutionary DeFi lending platform that introduces the
+          concept of
+          <strong>self-paying loans</strong>. Instead of manually repaying your
+          debt, the platform generates yield from Real World Assets (RWAs) and
+          automatically uses that yield to reduce your outstanding debt.
+        </p>
+
+        <div class="highlight-box">
+          <strong>The Big Idea:</strong> Imagine borrowing money where the
+          interest and principal get automatically paid down by investment
+          profits—without you lifting a finger. That's AxiomFlow.
+        </div>
+
+        <p>
+          Traditional lending requires borrowers to make manual payments.
+          AxiomFlow flips this model:
+        </p>
+        <ul>
+          <li>Deposit Real World Asset tokens as collateral</li>
+          <li>Borrow MNT (Mantle's native token) at 50% LTV</li>
+          <li>Platform generates yield from RWA investments</li>
+          <li>Yield <strong>automatically</strong> pays down your debt</li>
+          <li>Watch your debt shrink without manual payments</li>
+        </ul>
+      </div>
+
+      <!-- How It Works -->
+      <div class="docs-section">
+        <h2>02. How Does It Work?</h2>
+
+        <h3>The Flow</h3>
+        <ol>
+          <li>
+            <strong>Deposit Collateral:</strong> Users deposit RWA (Real World
+            Asset) tokens into the LendingVault smart contract. These tokens
+            represent real-world assets like property, commodities, or
+            securities.
+          </li>
+          <li>
+            <strong>Borrow MNT:</strong> Based on your collateral (at 50% LTV),
+            you can borrow MNT tokens. The borrowed amount creates a debt
+            position tracked on-chain.
+          </li>
+          <li>
+            <strong>Yield Generation:</strong> The YieldEngine contract receives
+            profits from RWA-backed investments. This yield is funded by
+            platform revenue, staking rewards, or investment returns.
+          </li>
+          <li>
+            <strong>Automatic Debt Reduction:</strong> When yield is generated,
+            it's automatically distributed proportionally to all borrowers based
+            on their debt share. Your remaining debt decreases without any
+            action from you.
+          </li>
+          <li>
+            <strong>Profit Realization:</strong> As your debt reduces below your
+            borrowed amount, the difference represents pure profit—you keep the
+            borrowed MNT while your debt shrinks via yield.
+          </li>
+        </ol>
+
+        <div class="highlight-box">
+          <strong>Example:</strong><br />
+          1. Deposit 100 RWA tokens as collateral<br />
+          2. Borrow 50 MNT (50% LTV)<br />
+          3. YieldEngine generates 20 MNT profit<br />
+          4. Your debt automatically reduces from 50 → 30 MNT<br />
+          5. You still have your 50 MNT borrowed, but only owe 30!
+        </div>
+
+        <h3>Smart Contracts</h3>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>LendingVault</h4>
+            <p>
+              Core contract managing collateral deposits, borrowing logic, and
+              debt tracking. Uses 50% LTV ratio for safe lending.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>YieldEngine</h4>
+            <p>
+              Receives yield/profits and distributes to LendingVault.
+              Automatically reduces borrower debt proportionally.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>MockRWA (Testnet)</h4>
+            <p>
+              Test token representing Real World Assets. On mainnet, this will
+              be replaced with actual tokenized RWAs.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testnet vs Mainnet -->
+      <div class="docs-section">
+        <h2>03. Testnet vs Mainnet Strategy</h2>
+
+        <h3>Current Testnet Implementation (Mantle Sepolia)</h3>
+        <p>
+          We're currently on <strong>Mantle Sepolia Testnet</strong> for testing
+          and demonstration:
+        </p>
+        <ul>
+          <li>
+            <strong>MockRWA Tokens:</strong> Simulated RWA tokens that anyone
+            can mint for testing
+          </li>
+          <li>
+            <strong>Manual Yield Funding:</strong> Yield is manually funded by
+            the admin/owner to demonstrate the debt reduction mechanism
+          </li>
+          <li>
+            <strong>Test MNT:</strong> Using Mantle Sepolia testnet MNT (no real
+            value)
+          </li>
+          <li>
+            <strong>Admin Controls Visible:</strong> Testing interface includes
+            admin functions for minting, funding, and managing the protocol
+          </li>
+        </ul>
+
+        <div class="highlight-box">
+          <strong>Why Admin Controls on Homepage?</strong><br />
+          During testnet phase, we keep admin controls accessible on the main
+          page so testers can:
+          <br />• Mint test RWA tokens to try the platform<br />• Fund the
+          YieldEngine to demonstrate yield distribution<br />• Monitor vault
+          health and total debt<br />
+          On mainnet, these will be moved to a separate admin dashboard with
+          multi-sig governance.
+        </div>
+
+        <h3>Mainnet Launch Plan</h3>
+        <p>
+          When we launch on <strong>Mantle Mainnet</strong>, the system will
+          evolve:
+        </p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>Real RWA Tokens</h4>
+            <p>
+              Partner with RWA tokenization platforms (like Centrifuge, Maple,
+              or Goldfinch) to accept real tokenized assets—real estate,
+              invoices, commodities, etc.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Automated Yield</h4>
+            <p>
+              Yield will come from actual RWA investment returns, staking
+              rewards, and protocol revenue—fully automated via smart contracts.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Governance & Security</h4>
+            <p>
+              Admin functions will be controlled by a DAO or multi-sig, with
+              time-locks and community voting for critical changes.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Audited Contracts</h4>
+            <p>
+              Full security audits by firms like OpenZeppelin, Certik, or Trail
+              of Bits before handling real user funds.
+            </p>
+          </div>
+        </div>
+
+        <h3>Mainnet Revenue Model</h3>
+        <ol>
+          <li>
+            <strong>RWA Investment Yields:</strong> Platform invests
+            collateralized RWAs in yield-generating opportunities (DeFi
+            protocols, real-world lending, etc.)
+          </li>
+          <li>
+            <strong>Borrowing Fees:</strong> Small one-time or ongoing fees on
+            borrowed amounts
+          </li>
+          <li>
+            <strong>Early Withdrawal Fees:</strong> Fees for removing collateral
+            before debt is fully paid
+          </li>
+          <li>
+            <strong>Protocol Revenue Share:</strong> A percentage of yield goes
+            to protocol treasury and governance token holders
+          </li>
+        </ol>
+      </div>
+
+      <!-- Design Philosophy -->
+      <div class="docs-section">
+        <h2>04. Design Philosophy</h2>
+
+        <h3>Why This Bold, Clean Design?</h3>
+        <p>
+          Our design is inspired by <strong>Aura Bora</strong>'s bold, playful
+          aesthetic because:
+        </p>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>Trust Through Clarity</h4>
+            <p>
+              DeFi can be confusing. Bold typography and strong borders create
+              visual hierarchy that makes complex financial concepts digestible.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Action-Oriented</h4>
+            <p>
+              Heavy button shadows and hover animations encourage
+              interaction—users feel confident clicking and exploring.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Professional Yet Approachable</h4>
+            <p>
+              Green earth tones convey financial stability, while playful
+              elements make DeFi less intimidating for newcomers.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Data-First</h4>
+            <p>
+              Monospace fonts and clear grids present financial data (balances,
+              debt, yields) clearly—like a modern financial terminal.
+            </p>
+          </div>
+        </div>
+
+        <h3>Key Design Elements</h3>
+        <ul>
+          <li>
+            <strong>Monospace Typography:</strong> Courier New gives a
+            technical, "code-like" feel that emphasizes transparency and
+            precision
+          </li>
+          <li>
+            <strong>Bold Borders & Shadows:</strong> 3px borders with offset
+            shadows create depth and tactile feedback
+          </li>
+          <li>
+            <strong>Earth-Tone Palette:</strong> Green (#2d5016) represents
+            growth and stability; cream backgrounds reduce eye strain
+          </li>
+          <li>
+            <strong>Numbered Steps:</strong> "01. DEPOSIT" → "02. BORROW" → "03.
+            YIELD" guides users through the flow
+          </li>
+          <li>
+            <strong>Real-Time Feedback:</strong> Event logs and live balance
+            updates build trust by showing exactly what's happening
+          </li>
+        </ul>
+      </div>
+
+      <!-- Technical Details -->
+      <div class="docs-section">
+        <h2>05. Technical Architecture</h2>
+
+        <h3>Smart Contract Stack</h3>
+        <p>
+          <strong>Solidity Version:</strong> 0.8.20 (latest stable with security
+          improvements)
+        </p>
+
+        <h4>LendingVault.sol</h4>
+        <ul>
+          <li>Manages user collateral and debt positions</li>
+          <li>50% LTV ratio enforced on-chain</li>
+          <li>Proportional yield distribution based on debt share</li>
+          <li>Emergency withdrawal functions (owner-only during testnet)</li>
+        </ul>
+
+        <h4>YieldEngine.sol</h4>
+        <ul>
+          <li>Receives yield/profit deposits</li>
+          <li>Automatically forwards yield to LendingVault</li>
+          <li>Triggers automated debt reduction events</li>
+        </ul>
+
+        <h4>MockRWA.sol (Testnet Only)</h4>
+        <ul>
+          <li>ERC20 token for testing</li>
+          <li>Owner can mint for testers</li>
+          <li>Will be replaced with real RWA tokens on mainnet</li>
+        </ul>
+
+        <h3>Frontend Stack</h3>
+        <ul>
+          <li>
+            <strong>Pure HTML/CSS/JS:</strong> No frameworks for maximum
+            simplicity and speed
+          </li>
+          <li>
+            <strong>Ethers.js v5:</strong> Web3 library for MetaMask and
+            contract interactions
+          </li>
+          <li>
+            <strong>Event-Driven UI:</strong> Real-time updates via contract
+            event listeners
+          </li>
+          <li>
+            <strong>Responsive Design:</strong> CSS Grid/Flexbox for mobile and
+            desktop compatibility
+          </li>
+        </ul>
+
+        <h3>Deployed Contracts (Mantle Sepolia)</h3>
+        <div class="contract-address">
+          <strong>LendingVault:</strong>
+          0xac8a5431c22C1adc0658b8231694cF1A016De4fd
+        </div>
+        <div class="contract-address">
+          <strong>YieldEngine:</strong>
+          0xE1C429ad3625Bdf484EB1D137144622E8F0a7C03
+        </div>
+        <div class="contract-address">
+          <strong>MockRWA:</strong> 0x6bBab57A5C636dC128F3aea1d7cFd2F82655c3f3
+        </div>
+
+        <p style="margin-top: 20px">
+          <strong>Blockchain:</strong> Mantle Sepolia Testnet (Chain ID:
+          5003)<br />
+          <strong>Explorer:</strong>
+          <a
+            href="https://sepolia.mantlescan.xyz"
+            target="_blank"
+            style="color: var(--primary-green)"
+            >sepolia.mantlescan.xyz</a
+          >
+        </p>
+      </div>
+
+      <!-- Use Cases -->
+      <div class="docs-section">
+        <h2>06. Real-World Use Cases</h2>
+
+        <h3>Who Benefits from AxiomFlow?</h3>
+
+        <div class="feature-grid">
+          <div class="feature-card">
+            <h4>RWA Holders</h4>
+            <p>
+              Own tokenized real estate, invoices, or commodities? Use them as
+              collateral to unlock liquidity without selling your appreciating
+              assets.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Yield Farmers</h4>
+            <p>
+              Borrow MNT, use it in other DeFi protocols for extra yield, while
+              your original debt automatically decreases via AxiomFlow yield.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>HODLers</h4>
+            <p>
+              Keep your long-term assets locked as collateral, borrow for
+              short-term needs, and let yield pay your debt over time.
+            </p>
+          </div>
+          <div class="feature-card">
+            <h4>Businesses</h4>
+            <p>
+              Tokenize receivables or assets, borrow working capital, and let
+              asset-backed yields automatically service the debt.
+            </p>
+          </div>
+        </div>
+
+        <h3>Example Scenarios</h3>
+
+        <div class="highlight-box">
+          <strong>Scenario 1: Real Estate Token Holder</strong><br />
+          Alice owns $100K of tokenized real estate (RWA). She deposits it into
+          AxiomFlow and borrows $50K MNT. Over 6 months, the real estate
+          generates $15K in rental yield. This yield automatically pays down her
+          debt to $35K—she still has $50K borrowed but only owes $35K!
+        </div>
+
+        <div class="highlight-box">
+          <strong>Scenario 2: Invoice Financing</strong><br />
+          Bob's company has $200K in tokenized invoices. He deposits them and
+          borrows $100K MNT for immediate cash flow. As customers pay invoices,
+          that revenue becomes yield that automatically reduces his debt. His
+          loan essentially pays itself as his business operates.
+        </div>
+
+        <div class="highlight-box">
+          <strong>Scenario 3: Commodity Staking</strong><br />
+          Carol deposits tokenized gold worth $80K and borrows $40K MNT. The
+          gold-backed token earns staking rewards in the protocol. These rewards
+          automatically chip away at her $40K debt over time, potentially
+          zeroing it out while she still holds her original borrowed MNT.
+        </div>
+      </div>
+
+      <!-- Roadmap -->
+      <div class="docs-section">
+        <h2>07. Roadmap</h2>
+
+        <h3>Q1 2026 (Current) - Testnet Phase</h3>
+        <ul>
+          <li>Deploy contracts to Mantle Sepolia</li>
+          <li>Launch frontend with admin controls</li>
+          <li>Community testing and feedback</li>
+          <li>🔄 Bug fixes and UI improvements</li>
+          <li>🔄 Documentation and tutorials</li>
+        </ul>
+
+        <h3>Q2 2026 - Security & Partnerships</h3>
+        <ul>
+          <li>🔜 Smart contract audits (OpenZeppelin / Certik)</li>
+          <li>🔜 Partner with RWA tokenization platforms</li>
+          <li>🔜 Integrate real yield sources (staking, lending protocols)</li>
+          <li>🔜 Governance token design</li>
+        </ul>
+
+        <h3>Q3 2026 - Mainnet Launch</h3>
+        <ul>
+          <li>🔜 Deploy to Mantle Mainnet</li>
+          <li>🔜 Initial liquidity provision event</li>
+          <li>🔜 DAO governance activation</li>
+          <li>🔜 Real RWA collateral acceptance</li>
+        </ul>
+
+        <h3>Q4 2026 - Expansion</h3>
+        <ul>
+          <li>🔜 Multi-chain deployment (Ethereum, Arbitrum, Optimism)</li>
+          <li>🔜 Advanced yield strategies (auto-compounding, leverage)</li>
+          <li>🔜 Mobile app launch</li>
+          <li>🔜 Institutional partnerships</li>
+        </ul>
+      </div>
+
+      <!-- FAQ -->
+      <div class="docs-section">
+        <h2>08. Frequently Asked Questions</h2>
+
+        <h3>Is my collateral safe?</h3>
+        <p>
+          On testnet, contracts are experimental. On mainnet, contracts will be
+          audited, and collateral will be secured by battle-tested smart
+          contract patterns with time-locks and multi-sig controls.
+        </p>
+
+        <h3>What if yield isn't generated?</h3>
+        <p>
+          Your debt remains at its current level. You're never required to make
+          manual payments—the debt only reduces when yield is generated. In
+          worst case, you can withdraw collateral after paying remaining debt.
+        </p>
+
+        <h3>Can I lose money?</h3>
+        <p>
+          If your collateral value drops significantly (e.g., RWA asset
+          devalues), your position could become under-collateralized. Future
+          versions will include liquidation mechanisms to protect the protocol.
+          Always maintain healthy LTV ratios.
+        </p>
+
+        <h3>Why 50% LTV?</h3>
+        <p>
+          Conservative LTV ensures stability. Even if collateral drops 30-40% in
+          value, loans remain over-collateralized, protecting both borrowers and
+          the protocol.
+        </p>
+
+        <h3>How is yield generated?</h3>
+        <p>
+          On testnet: manually funded for demo. On mainnet: from actual RWA
+          investments (rental income, invoice payments, commodity staking, DeFi
+          yields) and protocol revenue.
+        </p>
+
+        <h3>Can I repay my debt manually?</h3>
+        <p>
+          Currently, the protocol focuses on yield-based debt reduction. Manual
+          repayment features may be added in future versions for users who want
+          to accelerate payoff.
+        </p>
+      </div>
+
+      <!-- Get Started -->
+      <div class="docs-section">
+        <h2>09. Get Started</h2>
+
+        <h3>Try AxiomFlow on Testnet</h3>
+        <ol>
+          <li>
+            <strong>Add Mantle Sepolia to MetaMask</strong>
+            <ul>
+              <li>Network Name: Mantle Sepolia</li>
+              <li>RPC URL: https://rpc.sepolia.mantle.xyz</li>
+              <li>Chain ID: 5003</li>
+              <li>Currency: MNT</li>
+            </ul>
+          </li>
+          <li>
+            <strong>Get Test MNT:</strong> Visit
+            <a
+              href="https://faucet.sepolia.mantle.xyz"
+              target="_blank"
+              style="color: var(--primary-green)"
+              >Mantle Sepolia Faucet</a
+            >
+          </li>
+          <li>
+            <strong>Go to AxiomFlow:</strong>
+            <a href="index.html" style="color: var(--primary-green)"
+              >Launch App</a
+            >
+          </li>
+          <li>
+            <strong>Connect Wallet:</strong> Click "CONNECT WALLET" button
+          </li>
+          <li>
+            <strong>Mint RWA Tokens:</strong> Use admin controls to mint test
+            collateral tokens
+          </li>
+          <li>
+            <strong>Deposit & Borrow:</strong> Follow the 3-step flow on the
+            homepage
+          </li>
+          <li>
+            <strong>Generate Yield:</strong> Fund YieldEngine and trigger yield
+            distribution to see debt reduction in action!
+          </li>
+        </ol>
+
+        <div class="highlight-box">
+          <strong>Need Help?</strong><br />
+          Join our community or reach out:<br />
+          • GitHub:
+          <a
+            href="https://github.com/Akhil-Rawat/AxiomFlow"
+            target="_blank"
+            style="color: var(--primary-green)"
+            >github.com/Akhil-Rawat/AxiomFlow</a
+          ><br />
+          • Discord: [Coming Soon]<br />
+          • Twitter: [Coming Soon]
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>&copy; 2026 AxiomFlow • BUILT ON MANTLE SEPOLIA</p>
+        <div class="footer-links">
+          <a href="docs.html" class="footer-link">DOCS</a>
+          <a
+            href="https://github.com/Akhil-Rawat/AxiomFlow"
+            class="footer-link"
+            target="_blank"
+            >GITHUB</a
+          >
+          <a href="#" class="footer-link">DISCORD</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

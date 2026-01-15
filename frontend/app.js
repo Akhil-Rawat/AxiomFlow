@@ -126,8 +126,8 @@ async function connectWallet() {
     }
 
     // Request account access
-    const accounts = await window.ethereum.request({ 
-      method: "eth_requestAccounts" 
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
     });
 
     if (!accounts || accounts.length === 0) {
@@ -142,13 +142,13 @@ async function connectWallet() {
     // Check network (Mantle Sepolia)
     const network = await provider.getNetwork();
     console.log("Connected to network:", network.chainId, network.name);
-    
+
     if (network.chainId !== 5003) {
       console.log("Wrong network detected, attempting to switch...");
       try {
         await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: '0x138B' }], // 5003 in hex
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0x138B" }], // 5003 in hex
         });
         // After switch, reload provider
         window.location.reload();
@@ -158,27 +158,35 @@ async function connectWallet() {
         if (switchError.code === 4902) {
           try {
             await window.ethereum.request({
-              method: 'wallet_addEthereumChain',
-              params: [{
-                chainId: '0x138B',
-                chainName: 'Mantle Sepolia Testnet',
-                nativeCurrency: {
-                  name: 'MNT',
-                  symbol: 'MNT',
-                  decimals: 18
+              method: "wallet_addEthereumChain",
+              params: [
+                {
+                  chainId: "0x138B",
+                  chainName: "Mantle Sepolia Testnet",
+                  nativeCurrency: {
+                    name: "MNT",
+                    symbol: "MNT",
+                    decimals: 18,
+                  },
+                  rpcUrls: ["https://rpc.sepolia.mantle.xyz"],
+                  blockExplorerUrls: ["https://sepolia.mantlescan.xyz"],
                 },
-                rpcUrls: ['https://rpc.sepolia.mantle.xyz'],
-                blockExplorerUrls: ['https://sepolia.mantlescan.xyz']
-              }]
+              ],
             });
             window.location.reload();
             return;
           } catch (addError) {
-            showMessage("Failed to add Mantle Sepolia network: " + addError.message, "error");
+            showMessage(
+              "Failed to add Mantle Sepolia network: " + addError.message,
+              "error"
+            );
             return;
           }
         } else {
-          showMessage("Failed to switch network: " + switchError.message, "error");
+          showMessage(
+            "Failed to switch network: " + switchError.message,
+            "error"
+          );
           return;
         }
       }
