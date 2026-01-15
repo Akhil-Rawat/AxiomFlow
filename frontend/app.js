@@ -141,16 +141,18 @@ async function connectWallet() {
 
     // Check network (Mantle Sepolia)
     const network = await provider.getNetwork();
+    console.log("Connected to network:", network.chainId, network.name);
+    
     if (network.chainId !== 5003) {
-      showMessage(
-        "Please switch to Mantle Sepolia Testnet (Chain ID: 5003)",
-        "error"
-      );
+      console.log("Wrong network detected, attempting to switch...");
       try {
         await window.ethereum.request({
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: '0x138B' }], // 5003 in hex
         });
+        // After switch, reload provider
+        window.location.reload();
+        return;
       } catch (switchError) {
         // Chain doesn't exist, add it
         if (switchError.code === 4902) {
@@ -169,6 +171,8 @@ async function connectWallet() {
                 blockExplorerUrls: ['https://sepolia.mantlescan.xyz']
               }]
             });
+            window.location.reload();
+            return;
           } catch (addError) {
             showMessage("Failed to add Mantle Sepolia network: " + addError.message, "error");
             return;
@@ -180,8 +184,11 @@ async function connectWallet() {
       }
     }
 
+    console.log("Correct network! Chain ID:", network.chainId);
+
     // Initialize contracts
     if (CONTRACT_ADDRESSES.lendingVault) {
+      console.log("Initializing contracts...");
       lendingVaultContract = new ethers.Contract(
         CONTRACT_ADDRESSES.lendingVault,
         LENDING_VAULT_ABI,
@@ -200,20 +207,25 @@ async function connectWallet() {
         signer
       );
 
+      console.log("Contracts initialized!");
+
       // Check if user is owner
       const owner = await lendingVaultContract.owner();
       isOwner = owner.toLowerCase() === userAddress.toLowerCase();
+      console.log("Is owner:", isOwner);
 
       // Setup event listeners
       setupContractEventListeners();
 
       // Update UI
+      console.log("Updating UI...");
       await updateUI();
 
       document.getElementById("connectWallet").textContent = "CONNECTED";
       document.getElementById("connectWallet").disabled = true;
+      document.getElementById("connectWallet").style.opacity = "0.7";
 
-      showMessage("Wallet connected successfully!", "success");
+      showMessage("✅ Wallet connected successfully!", "success");
       addEventLog(
         "CONNECTION",
         `Wallet connected: ${formatAddress(userAddress)}`
