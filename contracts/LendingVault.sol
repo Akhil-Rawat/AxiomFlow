@@ -26,11 +26,11 @@ contract LendingVault is ReentrancyGuard, Ownable {
     }
 
     mapping(address => UserPosition) public positions;
-    
+
     // Track all borrowers for automated yield distribution
     address[] private borrowers;
     mapping(address => bool) private isBorrower;
-    
+
     // Total debt across all users for proportional distribution
     uint256 public totalDebt;
 
@@ -97,7 +97,7 @@ contract LendingVault is ReentrancyGuard, Ownable {
         position.borrowedAmount += amount;
         position.remainingDebt += amount;
         totalDebt += amount;
-        
+
         // Track borrower for automated payments
         if (!isBorrower[msg.sender]) {
             borrowers.push(msg.sender);
@@ -117,13 +117,13 @@ contract LendingVault is ReentrancyGuard, Ownable {
      */
     function receiveYield() external payable {
         require(msg.value > 0, "No yield received");
-        
+
         emit YieldReceived(msg.value);
-        
+
         // AUTOMATED STREAMING PAYMENT - no manual intervention needed!
         _distributeYieldAutomatically(msg.value);
     }
-    
+
     /**
      * @notice Internal function to automatically stream yield to reduce debts
      * @param yieldAmount Amount of yield to distribute
@@ -131,38 +131,39 @@ contract LendingVault is ReentrancyGuard, Ownable {
      */
     function _distributeYieldAutomatically(uint256 yieldAmount) internal {
         if (totalDebt == 0) return; // No debt to reduce
-        
+
         uint256 remainingYield = yieldAmount;
         uint256 usersProcessed = 0;
-        
+
         // Distribute yield proportionally to all borrowers
         for (uint256 i = 0; i < borrowers.length && remainingYield > 0; i++) {
             address borrower = borrowers[i];
             UserPosition storage position = positions[borrower];
-            
+
             if (position.remainingDebt == 0) continue;
-            
+
             // Calculate proportional share: (user debt / total debt) * yield
-            uint256 userShare = (position.remainingDebt * yieldAmount) / totalDebt;
-            
+            uint256 userShare = (position.remainingDebt * yieldAmount) /
+                totalDebt;
+
             // Don't exceed user's debt or remaining yield
-            uint256 debtReduction = userShare > position.remainingDebt 
-                ? position.remainingDebt 
+            uint256 debtReduction = userShare > position.remainingDebt
+                ? position.remainingDebt
                 : userShare;
-            debtReduction = debtReduction > remainingYield 
-                ? remainingYield 
+            debtReduction = debtReduction > remainingYield
+                ? remainingYield
                 : debtReduction;
-            
+
             if (debtReduction > 0) {
                 position.remainingDebt -= debtReduction;
                 totalDebt -= debtReduction;
                 remainingYield -= debtReduction;
                 usersProcessed++;
-                
+
                 emit DebtReduced(borrower, debtReduction);
             }
         }
-        
+
         emit AutomatedPayment(yieldAmount, usersProcessed);
     }
 
@@ -240,7 +241,7 @@ contract LendingVault is ReentrancyGuard, Ownable {
     function getAvailableYield() external view returns (uint256) {
         return address(this).balance;
     }
-    
+
     /**
      * @notice Get total number of active borrowers
      * @return Number of users who have borrowed

@@ -1,7 +1,11 @@
 {
-  "name": "mantle-lending-mvp",
+  "name": "axiomflow",
   "version": "1.0.0",
-  "description": "Yield-backed lending system for Mantle Sepolia",
+  "description": "DeFi lending platform on Mantle - Yield-backed lending system",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Akhil-Rawat/AxiomFlow"
+  },
   "scripts": {
     "compile": "hardhat compile",
     "deploy": "hardhat run scripts/deploy.js --network mantleSepolia",

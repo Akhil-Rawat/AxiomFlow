@@ -126,7 +126,14 @@ async function connectWallet() {
     }
 
     // Request account access
-    await window.ethereum.request({ method: "eth_requestAccounts" });
+    const accounts = await window.ethereum.request({ 
+      method: "eth_requestAccounts" 
+    });
+
+    if (!accounts || accounts.length === 0) {
+      showMessage("No accounts found. Please unlock MetaMask.", "error");
+      return;
+    }
 
     provider = new ethers.providers.Web3Provider(window.ethereum);
     signer = provider.getSigner();
@@ -139,7 +146,38 @@ async function connectWallet() {
         "Please switch to Mantle Sepolia Testnet (Chain ID: 5003)",
         "error"
       );
-      return;
+      try {
+        await window.ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: '0x138B' }], // 5003 in hex
+        });
+      } catch (switchError) {
+        // Chain doesn't exist, add it
+        if (switchError.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: 'wallet_addEthereumChain',
+              params: [{
+                chainId: '0x138B',
+                chainName: 'Mantle Sepolia Testnet',
+                nativeCurrency: {
+                  name: 'MNT',
+                  symbol: 'MNT',
+                  decimals: 18
+                },
+                rpcUrls: ['https://rpc.sepolia.mantle.xyz'],
+                blockExplorerUrls: ['https://sepolia.mantlescan.xyz']
+              }]
+            });
+          } catch (addError) {
+            showMessage("Failed to add Mantle Sepolia network: " + addError.message, "error");
+            return;
+          }
+        } else {
+          showMessage("Failed to switch network: " + switchError.message, "error");
+          return;
+        }
+      }
     }
 
     // Initialize contracts
