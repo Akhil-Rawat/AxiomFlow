@@ -35,22 +35,22 @@ async function main() {
   const engineAddress = await yieldEngine.getAddress();
   console.log("✅ YieldEngine deployed to:", engineAddress);
 
-  // 4. Fund the vault with 1 MNT
-  console.log("\n4️⃣ Funding LendingVault with 1 MNT...");
+  // 4. Fund the vault with 200 MNT for larger testing
+  console.log("\n4️⃣ Funding LendingVault with 200 MNT...");
   const fundTx = await lendingVault.fundVault({
-    value: hre.ethers.parseEther("1"),
+    value: hre.ethers.parseEther("200"),
   });
   await fundTx.wait();
-  console.log("✅ Vault funded with 1 MNT");
+  console.log("✅ Vault funded with 200 MNT");
 
-  // 5. Mint RWA tokens to deployer for testing
-  console.log("\n5️⃣ Minting 1000 RWA tokens to deployer...");
+  // 5. Mint RWA tokens to deployer for testing (10,000 tokens)
+  console.log("\n5️⃣ Minting 10,000 RWA tokens to deployer...");
   const mintTx = await mockRWA.mint(
     deployer.address,
-    hre.ethers.parseEther("1000")
+    hre.ethers.parseEther("10000")
   );
   await mintTx.wait();
-  console.log("✅ Minted 1000 RWA tokens");
+  console.log("✅ Minted 10,000 RWA tokens");
 
   console.log("\n" + "=".repeat(60));
   console.log("🎉 DEPLOYMENT COMPLETE!");
